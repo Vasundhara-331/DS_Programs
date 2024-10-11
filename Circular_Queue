@@ -1,0 +1,318 @@
+# include <stdio.h>
+# include <stdlib.h>
+# define MAX 6
+
+int queue[MAX], front = -1, rear = -1, n = MAX;
+
+void enqueue(int item) {
+    if((rear + 1) % n == front) {
+        printf("\nQueue Overflow!");
+    }
+    else {
+        if(front == -1) {  // If the queue is empty, set front to 0
+            front = 0;
+        }
+        rear = (rear + 1) % n;
+        queue[rear] = item;
+        printf("\n%d has been enqueued", queue[rear]);
+    }
+}
+
+void dequeue() {
+    if(front == -1) {  // Check if the queue is empty
+        printf("\nQueue Underflow!");
+    }
+    else {
+        printf("\n%d has been dequeued from queue", queue[front]);
+        if(front == rear) {  // Queue becomes empty after this dequeue
+            front = -1;
+            rear = -1;
+        }
+        else {
+            front = (front + 1) % n;  // Move front to the next position
+        }
+    }
+}
+
+void displayCQueue() {
+    if(front == -1) {
+        printf("\nQueue is empty!");
+    }
+    else {
+        printf("\nDisplaying the elements: ");
+        int i = front;
+        while(i != rear) {
+            printf("%d\t", queue[i]);
+            i = (i + 1) % n;  // Move to the next element in a circular manner
+        }
+        printf("%d\t", queue[rear]);  // Print the last element
+        printf("\n");
+    }
+}
+
+int main() {
+    int choice, item;
+    while(1) {
+        printf("\nDisplaying Menu:\n");
+        printf("1. Enqueue to Queue\n2. Dequeue from Queue\n3. Display Queue\n4. Exit\n");
+        printf("Enter the choice: ");
+        scanf("%d", &choice);
+        switch(choice) {
+            case 1: {
+                printf("\nEnter the item to be enqueued: ");
+                scanf("%d", &item);
+                enqueue(item);
+                break;
+            }
+            case 2: {
+                dequeue();
+                break;
+            }
+            case 3: {
+                displayCQueue();
+                break;
+            }
+            case 4: {
+                printf("\nExiting Menu!!");
+                exit(0);
+            }
+            default: {
+                printf("\nInvalid Choice!"); 
+            }
+        }
+    }
+    return 0;
+}
+/* OUTPUT:
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+Queue Underflow!
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 3
+
+Queue is empty!
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 1
+
+1 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 2
+
+2 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 3
+
+3 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 4
+
+4 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 5
+
+5 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 6
+
+6 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 7
+
+Queue Overflow!
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 3
+
+Displaying the elements: 1      2       3       4       5       6
+
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+1 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+2 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+3 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 3
+
+Displaying the elements: 4      5       6
+
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 1
+
+1 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 2
+
+2 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 3
+
+3 has been enqueued
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 3
+
+Displaying the elements: 4      5       6       1       2       3
+
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+4 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+5 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+6 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+1 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+2 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+3 has been dequeued from queue
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 2
+
+Queue Underflow!
+Displaying Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice: 4
+
+Exiting Menu!!
+*/
