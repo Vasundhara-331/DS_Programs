@@ -6,7 +6,7 @@ int stack[MAX],top = -1;
 int i,n;
 
 void push(int item) {
-    if(top >= MAX) {
+    if(top >= MAX - 1) {
         printf("\nStack Overflow!!");
     }
     else {
