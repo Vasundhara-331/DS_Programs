@@ -1,0 +1,315 @@
+// Queue using Linked List
+# include <stdio.h>
+# include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *link;
+};
+
+struct node *queueFront = NULL;
+struct node *queueRear = NULL;
+
+void enqueue(int data) {
+    struct node *newNode = (struct node*) malloc(sizeof(struct node));
+    newNode -> data = data;
+    newNode -> link = NULL;
+    if(queueRear == NULL) {
+        queueFront = queueRear = newNode;
+    }
+    else {
+        queueRear -> link = newNode;
+        queueRear = newNode;
+        printf("\n%d has been enqueued to queue",data);
+    }
+}
+
+void dequeue() {
+    if(queueFront == NULL) {
+        printf("\nQueue is empty!");
+    }
+    else {
+        struct node *temp = queueFront;
+        queueFront = queueFront -> link;
+        printf("\n%d has been dequeued",temp -> data);
+        free(temp);
+        
+        if(queueFront == NULL) {
+            queueRear = NULL;
+        }
+    }
+}
+
+void displayQueue() {
+     if(queueFront == NULL) {
+        printf("\nQueue is empty!");
+    }
+    else {
+        struct node *temp = queueFront;
+        printf("\nQueue elements: ");
+        while(temp != NULL) {
+            printf("%d\t",temp -> data);
+            temp = temp -> link;
+        }
+    }
+}
+int main() {
+    int choice, data;
+  while(1) {
+    printf("\nDisplaying Queue Menu:");
+    printf("\n1. Enqueue to Queue");
+    printf("\n2. Dequeue from Queue");
+    printf("\n3. Display Queue");
+    printf("\n4. Exit");
+    
+    printf("\nEnter the choice:");
+    scanf("%d",&choice);
+    
+    if(choice == 1) {
+      printf("\nEnter the item to be enqueued:");
+      scanf("%d",&data);
+      enqueue(data);
+    }
+    else if(choice == 2) {
+      dequeue();
+    }
+    else if(choice == 3) {
+      displayQueue();
+    }
+    else if(choice == 4) {
+      printf("\nExiting the Queue Menu!");
+      break;
+    }
+    else {
+      printf("\nInvalid choice!\n");
+    }
+  }
+  return 0;
+}
+/* OUTPUT:
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+Queue is empty!
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:3
+
+Queue is empty!
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:1
+
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:2
+
+2 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:3
+
+3 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:4
+
+4 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:5
+
+5 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:3
+
+Queue elements: 1       2       3       4       5
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+1 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+2 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:6
+
+6 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:7
+
+7 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:3
+
+Queue elements: 3       4       5       6       7
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+3 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+4 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:1
+
+1 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:1
+
+Enter the item to be enqueued:2
+
+2 has been enqueued to queue
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:3
+
+Queue elements: 5       6       7       1       2
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+5 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+6 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+7 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+1 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+2 has been dequeued
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:2
+
+Queue is empty!
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:3
+
+Queue is empty!
+Displaying Queue Menu:
+1. Enqueue to Queue
+2. Dequeue from Queue
+3. Display Queue
+4. Exit
+Enter the choice:4
+
+Exiting the Queue Menu!
+*/
