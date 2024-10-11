@@ -8,8 +8,6 @@ struct node {
 };
 
 struct node *stackTop = NULL;
-struct node *queueFront = NULL;
-struct node *queueRear = NULL;
 
 void push(int data) {
     struct node *newNode = (struct node*) malloc(sizeof(struct node));
