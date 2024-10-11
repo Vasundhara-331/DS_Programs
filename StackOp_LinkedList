@@ -1,0 +1,262 @@
+// Stack using Linked List
+# include <stdio.h>
+# include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *link;
+};
+
+struct node *stackTop = NULL;
+struct node *queueFront = NULL;
+struct node *queueRear = NULL;
+
+void push(int data) {
+    struct node *newNode = (struct node*) malloc(sizeof(struct node));
+    newNode -> data = data;
+    newNode -> link = stackTop;
+    stackTop = newNode;
+    printf("\n%d has been pushed into stack",data);
+}
+
+void pop() {
+    if(stackTop == NULL) {
+        printf("\nStack Underflow!");
+    }
+    else {
+        struct node *temp = stackTop;
+        stackTop = stackTop -> link;
+        printf("\n%d has been popped",temp -> data);
+        free(temp);
+    }
+}
+
+void displayStack() {
+    if(stackTop == NULL) {
+        printf("\nStack is empty");
+    }
+    else {
+        struct node *temp = stackTop;
+        printf("\nStack elements: ");
+        while(temp != NULL) {
+            printf("%d\t",temp -> data);
+            temp = temp -> link;
+        }
+    }
+}
+
+int main() {
+    int data,choice;
+    while(1) {
+    printf("\nDisplaying Stack Menu:");
+    printf("\n1. Push to Stack");
+    printf("\n2. Pop from Stack");
+    printf("\n3. Display Stack");
+    printf("\n4. Exit");
+    
+    printf("\nEnter the choice:");
+    scanf("%d",&choice);
+    
+    if(choice == 1) {
+      printf("\nEnter the item to be pushed:");
+      scanf("%d",&data);
+      push(data);
+    }
+    else if(choice == 2) {
+      pop();
+    }
+    else if(choice == 3) {
+      displayStack();
+    }
+    else if(choice == 4) {
+      printf("\nExiting the Stack Menu!");
+      break;
+    }
+    else {
+      printf("\nInvalid choice!\n");
+    }
+  }
+  return 0;
+}
+/* OUTPUT:
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+Stack Underflow!
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack is empty
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:1
+
+1 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:2
+
+2 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:3
+
+3 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack elements: 3       2       1
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:4
+
+4 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:5
+
+5 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack elements: 5       4       3       2       1
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+5 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+4 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+3 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+2 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack elements: 1
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:1
+
+Enter the item to be pushed:6
+
+6 has been pushed into stack
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack elements: 6       1
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+6 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+1 has been popped
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:2
+
+Stack Underflow!
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:3
+
+Stack is empty
+Displaying Stack Menu:
+1. Push to Stack
+2. Pop from Stack
+3. Display Stack
+4. Exit
+Enter the choice:4
+
+Exiting the Stack Menu!
+*/
