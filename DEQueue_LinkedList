@@ -1,0 +1,443 @@
+// Double Ended Queue using Doubly Linked List
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+struct node *front = NULL;
+struct node *rear = NULL;
+
+void enqueueFront(int item) {
+    struct node *newNode = (struct node*) malloc(sizeof(struct node));
+    if(newNode == NULL) {
+        printf("\nMemory allocation not possible!");
+    }
+    else {
+        newNode -> data = item;
+        newNode -> prev = NULL;
+        newNode -> next = front;
+        if(front == NULL) {
+            rear = newNode;
+        }
+        else {
+            front -> prev = newNode;
+        }
+        front = newNode;
+        printf("\n%d has been enqueued at the front",item);
+    }
+}
+
+void enqueueRear(int item) {
+    struct node *newNode = (struct node*) malloc(sizeof(struct node));
+    if(newNode == NULL) {
+        printf("\nMemory allocation not possible!");
+    }
+    else {
+        newNode -> data = item;
+        newNode -> next = NULL;
+        newNode -> prev = rear;
+        if(rear == NULL) {
+            front = newNode;
+        }
+        else {
+            rear -> next = newNode;
+        }
+        rear = newNode;
+        printf("\n%d has been enqueued at the rear",item);
+    }
+}
+
+void dequeueFront() {
+    if(front == NULL) {
+        printf("\nDouble ended queue is empty!");
+    }
+    else {
+        struct node *temp = front;
+        front = front -> next;
+        if(front == NULL) {
+            rear = NULL;
+        }
+        else {
+            front -> prev = NULL;
+        }
+        printf("\n%d has been dequeued from front",temp -> data);
+        free(temp);
+    }
+}
+
+void dequeueRear() {
+     if(rear == NULL) {
+        printf("\nDouble ended queue is empty!");
+    }
+    else {
+        struct node *temp = rear;
+        rear = rear -> prev;
+        if(rear == NULL) {
+            front = NULL;
+        }
+        else {
+            rear -> next = NULL;
+        }
+        printf("\n%d has been dequeued from front",temp -> data);
+        free(temp);
+    }
+}
+
+void displayQueue() {
+     if(front == NULL) {
+        printf("\nDouble ended queue is empty!");
+    }
+    else {
+        struct node *temp = front;
+        printf("Double ended queue: ");
+        while(temp != NULL) {
+            printf("%d\t",temp -> data);
+            temp = temp -> next;
+        }
+    }
+}
+int main() {
+    int choice, item;
+    while(1) {
+        printf("\nDisplaying Queue Menu:");
+        printf("\n1. Enqueue from Front\n2. Enqueue from Rear\n3. Dequeue from Front\n4. Dequeue from Rear\n5. Display Queue\n6. Exit");
+        printf("\nEnter the choice: ");
+        scanf("%d",&choice);
+        switch(choice) {
+            case 1: {
+                printf("\nEnter the item to be enqueued: ");
+                scanf("%d",&item);
+                enqueueFront(item);
+                break;
+            }
+            case 2: {
+                printf("\nEnter the item to be enqueued: ");
+                scanf("%d",&item);
+                enqueueRear(item);
+                break;
+            }
+            case 3: {
+                dequeueFront();
+                break;
+            }
+            case 4: {
+                dequeueRear();
+                break;
+            }
+            case 5: {
+                displayQueue();
+                break;
+            }
+            case 6: {
+                printf("\nExiting Menu!");
+                exit(0);
+            }
+            default: {
+                printf("\nInvalid Choice!");
+            }
+        }
+    }
+    return 0;
+}
+/* OUTPUT:
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 3
+
+Double ended queue is empty!
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 4
+
+Double ended queue is empty!
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 1
+
+1 has been enqueued at the front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 2
+
+2 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 3
+
+3 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 4
+
+4 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 5
+
+5 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 1   2       3       4       5
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 3
+
+1 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 4
+
+5 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 2   3       4
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 1
+
+Enter the item to be enqueued: 6
+
+6 has been enqueued at the front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 6   2       3       4
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 7
+
+7 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 6   2       3       4       7
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 2
+
+Enter the item to be enqueued: 5
+
+5 has been enqueued at the rear
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 3
+
+6 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 2   3       4       7       5
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 4
+
+5 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 2   3       4       7
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 2   3       4       7
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 4
+
+7 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 2   3       4
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 3
+
+2 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+Double ended queue: 3   4
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 3
+
+3 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 4
+
+4 has been dequeued from front
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 5
+
+Double ended queue is empty!
+Displaying Queue Menu:
+1. Enqueue from Front
+2. Enqueue from Rear
+3. Dequeue from Front
+4. Dequeue from Rear
+5. Display Queue
+6. Exit
+Enter the choice: 6
+
+Exiting Menu!
+*/
