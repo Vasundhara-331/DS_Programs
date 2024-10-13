@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+
+// Function to insert a new node at the end of a circular linked list
+void insertAtEnd(struct node** head, int data) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = data;
+    newNode->link = NULL;
+
+    if (*head == NULL) {
+        *head = newNode; // If the list is empty
+        newNode->link = *head; // Link to itself
+    } else {
+        struct node* temp = *head;
+        while (temp->link != *head) {
+            temp = temp->link;
+        }
+        temp->link = newNode;
+        newNode->link = *head; // Make it circular
+    }
+}
+
+// Function to display the circular linked list
+void traverse(struct node* head) {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    struct node* temp = head;
+    printf("Circular Linked List: ");
+    
+    do {
+        printf("%d\t", temp->data);
+        temp = temp->link;
+    } while (temp != head);
+    
+    printf("\n");
+}
+
+// Function to merge two circular linked lists
+struct node* mergeCircularLists(struct node* head1, struct node* head2) {
+    if (head1 == NULL) return head2; // Return the second list if the first is empty
+    if (head2 == NULL) return head1; // Return the first list if the second is empty
+
+    struct node* temp1 = head1;
+    struct node* temp2 = head2;
+
+    // Traverse to the last node of the first list
+    while (temp1->link != head1) {
+        temp1 = temp1->link;
+    }
+    // Traverse to the last node of the second list
+    while (temp2->link != head2) {
+        temp2 = temp2->link;
+    }
+
+    // Connect the last node of the first list to the head of the second list
+    temp1->link = head2;
+    // Connect the last node of the second list to the head of the first list
+    temp2->link = head1;
+
+    return head1; // Return the head of the merged list
+}
+
+int main() {
+    struct node* head1 = NULL; // Head of the first circular linked list
+    struct node* head2 = NULL; // Head of the second circular linked list
+    int data;
+
+    // Insert nodes into the first circular linked list
+    printf("Creating First Circular Linked List:\n");
+    while (1) {
+        printf("Enter data to insert at end (or -1 to stop): ");
+        scanf("%d", &data);
+        if (data == -1) break;
+        insertAtEnd(&head1, data);
+    }
+
+    // Insert nodes into the second circular linked list
+    printf("\nCreating Second Circular Linked List:\n");
+    while (1) {
+        printf("Enter data to insert at end (or -1 to stop): ");
+        scanf("%d", &data);
+        if (data == -1) break;
+        insertAtEnd(&head2, data);
+    }
+
+    // Display both circular linked lists
+    printf("\nFirst ");
+    traverse(head1);
+    printf("Second ");
+    traverse(head2);
+
+    // Merge the two circular linked lists
+    head1 = mergeCircularLists(head1, head2);
+    printf("\nMerged ");
+    traverse(head1);
+
+    return 0;
+}
