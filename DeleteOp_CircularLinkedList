@@ -1,0 +1,249 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+
+struct node* head = NULL;
+
+// Function to insert at the beginning of the circular linked list
+void insertAtBeginning(int data) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    
+    newNode->data = data;
+
+    // If the list is empty, point new node to itself
+    if (head == NULL) {
+        head = newNode;
+        newNode->link = head;
+    } else {
+        struct node* temp = head;
+        while (temp->link != head) {
+            temp = temp->link;
+        }
+        newNode->link = head;  // Link new node to current head
+        temp->link = newNode;   // Link last node to the new node
+        head = newNode;         // Update head to the new node
+    }
+    printf("Node inserted at the beginning.\n");
+}
+
+// Function to insert at the end of the circular linked list
+void insertAtEnd(int data) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    newNode->data = data;
+
+    // If the list is empty, point new node to itself
+    if (head == NULL) {
+        head = newNode;
+        newNode->link = head;
+    } else {
+        struct node* temp = head;
+        while (temp->link != head) {
+            temp = temp->link;
+        }
+        temp->link = newNode;
+        newNode->link = head;  // Link new node back to head
+    }
+    printf("Node inserted at the end.\n");
+}
+
+// Function to delete the first node in the circular linked list
+void deleteAtBeginning() {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    if (head->link == head) {
+        free(head);
+        head = NULL;
+    } else {
+        struct node* temp = head;
+        while (temp->link != head) {
+            temp = temp->link;
+        }
+        struct node* toDelete = head;
+        temp->link = head->link;
+        head = head->link;
+        free(toDelete);
+    }
+    printf("Node deleted from the beginning.\n");
+}
+
+// Function to delete the last node in the circular linked list
+void deleteAtEnd() {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    if (head->link == head) {
+        free(head);
+        head = NULL;
+    } else {
+        struct node* temp = head;
+        struct node* prev = NULL;
+
+        while (temp->link != head) {
+            prev = temp;
+            temp = temp->link;
+        }
+        prev->link = head;
+        free(temp);
+    }
+    printf("Node deleted from the end.\n");
+}
+
+// Function to delete the node after a specific key
+void deleteAfterKey(int key) {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    struct node* temp = head;
+    do {
+        if (temp->data == key) {
+            struct node* toDelete = temp->link;
+            if (toDelete != head) {
+                temp->link = toDelete->link;
+                free(toDelete);
+                printf("Node after key %d deleted.\n", key);
+            } else {
+                printf("No node to delete after the key.\n");
+            }
+            return;
+        }
+        temp = temp->link;
+    } while (temp != head);
+
+    printf("Key %d not found in the list.\n", key);
+}
+
+// Function to search for a key in the circular linked list
+int search(int key) {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return -1;
+    }
+
+    struct node* temp = head;
+    int position = 1;
+    
+    do {
+        if (temp->data == key) {
+            printf("Element %d found at position %d.\n", key, position);
+            return position;
+        }
+        temp = temp->link;
+        position++;
+    } while (temp != head);
+
+    printf("Element %d not found in the list.\n", key);
+    return -1;
+}
+
+// Function to traverse and display the circular linked list
+void traverse() {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    struct node* temp = head;
+    printf("Circular Linked List: ");
+    
+    do {
+        printf("%d\t", temp->data);
+        temp = temp->link;
+    } while (temp != head);
+    
+    printf("\n");
+}
+
+int main() {
+    int data, key, choice;
+
+    // Inserting nodes into the circular linked list before proceeding with deletion operations
+    while(1) {
+        printf("\n*** Circular Linked List Operations ***\n");
+        printf("Choose an option:\n");
+        printf("1. Insert at the beginning\n");
+        printf("2. Insert at the end\n");
+        printf("3. Proceed to deletion operations\n");
+        printf("Enter your option: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the data to insert at the beginning: ");
+                scanf("%d", &data);
+                insertAtBeginning(data);
+                break;
+            case 2:
+                printf("Enter the data to insert at the end: ");
+                scanf("%d", &data);
+                insertAtEnd(data);
+                break;
+            case 3:
+                goto deletionMenu; // Proceed to deletion operations
+            default:
+                printf("Invalid option! Please try again.\n");
+        }
+    }
+
+deletionMenu:
+    while(1) {
+        printf("\n*** Deletion Operations ***\n");
+        printf("Choose an option:\n");
+        printf("1. Delete from beginning\n");
+        printf("2. Delete from the end\n");
+        printf("3. Delete after a key\n");
+        printf("4. Search for a key\n");
+        printf("5. Display the list\n");
+        printf("6. Exit\n");
+        printf("Enter your option: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                deleteAtBeginning();
+                break;
+            case 2:
+                deleteAtEnd();
+                break;
+            case 3:
+                printf("Enter the key after which to delete: ");
+                scanf("%d", &key);
+                deleteAfterKey(key);
+                break;
+            case 4:
+                printf("Enter the key to search: ");
+                scanf("%d", &key);
+                search(key);
+                break;
+            case 5:
+                traverse();
+                break;
+            case 6:
+                printf("\nExiting Menu!\n");
+                exit(0);
+            default:
+                printf("Invalid option! Please try again.\n");
+        }
+    }
+
+    return 0;
+}
