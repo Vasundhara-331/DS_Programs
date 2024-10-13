@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define a node in the circular linked list
+struct node {
+    int data;            // Data stored in the node
+    struct node* link;   // Pointer to the next node
+};
+
+// Function to insert a new node at the end of a circular linked list
+void insertAtEnd(struct node** head, int data) {
+    struct node* newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = data;
+
+    if (*head == NULL) { // If the list is empty
+        *head = newNode; // Set head to new node
+        newNode->link = newNode; // Link to itself
+    } else {
+        struct node* temp = *head; // Start from head
+        // Traverse to the last node
+        while (temp->link != *head) {
+            temp = temp->link;
+        }
+        // Insert new node at the end
+        temp->link = newNode; 
+        newNode->link = *head; // Link new node to head
+    }
+}
+
+// Function to display the circular linked list
+void traverse(struct node* head) {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+
+    struct node* temp = head; // Start from head
+    printf("Circular Linked List: ");
+    do {
+        printf("%d ", temp->data); // Print current node data
+        temp = temp->link; // Move to the next node
+    } while (temp != head); // Loop until we reach head again
+    printf("\n");
+}
+
+// Function to merge two circular linked lists starting from a specified key in the second list
+struct node* mergeCircularLists(struct node* head1, struct node* head2, int key) {
+    if (head1 == NULL) return head2; // If first list is empty, return second
+    if (head2 == NULL) return head1; // If second list is empty, return first
+
+    struct node* temp1 = head1; // Start from first list
+    struct node* temp2 = head2; // Start from second list
+
+    // Find the node after which to merge in the second list
+    struct node* keyNode = NULL;
+    do {
+        if (temp2->data == key) {
+            keyNode = temp2; // Found the key node
+            break;
+        }
+        temp2 = temp2->link;
+    } while (temp2 != head2);
+
+    if (keyNode == NULL) {
+        printf("Key %d not found in the second list. Merging at the end.\n", key);
+        keyNode = head2; // If key not found, merge at end
+    }
+
+    // Traverse to the last node of the first list
+    while (temp1->link != head1) {
+        temp1 = temp1->link;
+    }
+
+    // Connect last of the first list to the node after the key in the second list
+    temp1->link = keyNode->link;
+    // Connect last node of second list to head of the first list
+    temp2->link = head1;
+
+    return head1; // Return the merged list
+}
+
+int main() {
+    struct node* head1 = NULL; // Head of the first circular linked list
+    struct node* head2 = NULL; // Head of the second circular linked list
+    int data, key;
+
+    // Insert nodes into the first circular linked list
+    printf("Creating First Circular Linked List:\n");
+    while (1) {
+        printf("Enter data to insert at end (or -1 to stop): ");
+        scanf("%d", &data);
+        if (data == -1) break; // Stop input
+        insertAtEnd(&head1, data); // Insert data
+    }
+
+    // Insert nodes into the second circular linked list
+    printf("\nCreating Second Circular Linked List:\n");
+    while (1) {
+        printf("Enter data to insert at end (or -1 to stop): ");
+        scanf("%d", &data);
+        if (data == -1) break; // Stop input
+        insertAtEnd(&head2, data); // Insert data
+    }
+
+    // Display both circular linked lists
+    printf("\nFirst Circular Linked List:\n");
+    traverse(head1);
+    printf("\nSecond Circular Linked List:\n");
+    traverse(head2);
+
+    // Get the key from the user for merging
+    printf("\nEnter the key after which to merge from the second list: ");
+    scanf("%d", &key);
+
+    // Merge the two circular linked lists
+    head1 = mergeCircularLists(head1, head2, key);
+    printf("\nMerged Circular Linked List:\n");
+    traverse(head1);
+
+    return 0;
+}
