@@ -1,0 +1,154 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+struct node* head = NULL;
+
+void traverse() {
+    struct node* ptr = head;
+    
+    if (ptr == NULL) {
+        printf("The list is empty!\n");
+        return;
+    }
+
+    printf("Linked List: ");
+    while (ptr != NULL) {
+        printf("%d\t", ptr->data);  // Print the data in the linked list nodes
+        ptr = ptr->link;            // Move to the next node
+    }
+    printf("\n");
+}
+
+void insert(int data) {
+    struct node* newNode = (struct node*) malloc(sizeof(struct node));
+    if (newNode == NULL) {
+        printf("\nMemory Allocation not possible!\n");
+        return;
+    }
+
+    newNode->data = data;  // Set the data
+    newNode->link = head;  // Link the new node to the current head
+    head = newNode;        // Update head to point to the new node
+}
+
+void deleteAtBeginning() {
+    if (head == NULL) {
+        printf("The list is already empty.\n");
+        return;
+    }
+
+    struct node* temp = head;   // Store the current head
+    head = head->link;          // Move the head to the next node
+    free(temp);                 // Free the memory of the old head node
+
+    printf("Node deleted from the beginning.\n");
+}
+
+void deleteAtEnd() {
+    if (head == NULL) {
+        printf("The list is already empty.\n");
+        return;
+    }
+
+    struct node* temp = head;
+    struct node* prev = NULL;
+
+    // If there's only one node
+    if (temp->link == NULL) {
+        free(head);  // Free the single node
+        head = NULL; // Set head to NULL
+        printf("Node deleted from the end.\n");
+        return;
+    }
+
+    // Traverse the list until the last node
+    while (temp->link != NULL) {
+        prev = temp;    // Store the previous node
+        temp = temp->link;  // Move to the next node
+    }
+
+    prev->link = NULL;  // Disconnect the last node from the list
+    free(temp);         // Free the memory of the last node
+    printf("Node deleted from the end.\n");
+}
+
+// Function to delete a node after a specific key value
+void deleteInBetween(int key) {
+    if (head == NULL) {
+        printf("The list is already empty.\n");
+        return;
+    }
+
+    struct node* ptr = head;
+
+    // Traverse the list to find the node with the specified key
+    while (ptr != NULL && ptr->data != key) {
+        ptr = ptr->link;
+    }
+
+    // If key is found and the node after it exists
+    if (ptr != NULL && ptr->link != NULL) {
+        struct node* temp = ptr->link;  // Store the node to be deleted
+        ptr->link = temp->link;         // Link the current node to the next node
+        free(temp);                     // Free the memory of the deleted node
+        printf("Node after key %d deleted.\n", key);
+    } else if (ptr == NULL) {
+        printf("Key %d not found in the list.\n", key);
+    } else {
+        printf("There is no node after key %d to delete.\n", key);
+    }
+}
+
+int main() {
+    int data,ch,key;
+    char choice;
+
+    do {
+        printf("\nEnter the data: ");
+        scanf("%d", &data);
+
+        insert(data);  // Insert new data into the linked list
+        traverse();    // Display the current linked list
+
+        printf("\nDo you want to add another node (y/n)? ");
+        scanf(" %c", &choice);
+    } while (choice == 'y' || choice == 'Y');
+    while(1) {
+        printf("\nMenu:");
+        printf("\n1. Delete from beginning\n2. Delete from end\n3. Delete in between\n4. Display\n5. Exit");
+        printf("\nEnter the choice: ");
+        scanf("%d",&ch);
+        switch(ch) {
+            case 1: {
+                deleteAtBeginning(data);
+                break;
+            }
+            case 2: {
+                deleteAtEnd();
+                break;
+            }
+            case 3: {
+                printf("\nEnter the key to be deleted: ");
+                scanf("%d",&key);
+                deleteInBetween(key);
+                break;
+            }
+            case 4: {
+                traverse();
+                break;
+            }
+            case 5: {
+                printf("\nExiting Menu!");
+                exit(0);
+            }
+            default: {
+                printf("\nInvalid Choice!");
+            }
+        }
+    }
+    return 0;
+}
