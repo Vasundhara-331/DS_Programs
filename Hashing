@@ -21,7 +21,7 @@ struct Node* createNode(int data) {
 
 struct HashTable* createHashTable() {
     struct HashTable* hashTable = (struct HashTable*)malloc(sizeof(struct HashTable));
-    hashTable->table = (struct Node*)malloc(TABLE_SIZE * sizeof(struct Node));
+    hashTable->table = (struct Node**)malloc(TABLE_SIZE * sizeof(struct Node*)); // Corrected allocation
     
     for (int i = 0; i < TABLE_SIZE; i++) {
         hashTable->table[i] = NULL; 
