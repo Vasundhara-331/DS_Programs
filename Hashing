@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10 
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct HashTable {
+    struct Node** table; 
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+struct HashTable* createHashTable() {
+    struct HashTable* hashTable = (struct HashTable*)malloc(sizeof(struct HashTable));
+    hashTable->table = (struct Node*)malloc(TABLE_SIZE * sizeof(struct Node));
+    
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        hashTable->table[i] = NULL; 
+    }
+    return hashTable;
+}
+
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+void insert(struct HashTable* hashTable, int key) {
+    int hashIndex = hashFunction(key);
+    struct Node* newNode = createNode(key);
+    
+    // Insert at the beginning of the list at the hashIndex
+    newNode->next = hashTable->table[hashIndex];
+    hashTable->table[hashIndex] = newNode;
+}
+
+int search(struct HashTable* hashTable, int key, int* index, int* position) {
+    *index = hashFunction(key);
+    struct Node* current = hashTable->table[*index];
+    *position = 0;
+    
+    while (current != NULL) {
+        if (current->data == key) {
+            return 1;  // Key found
+        }
+        current = current->next;
+        (*position)++;
+    }
+    return 0;  // Key not found
+}
+
+void display(struct HashTable* hashTable) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        struct Node* current = hashTable->table[i];
+        printf("Index %d: ", i);
+        while (current != NULL) {
+            printf("%d -> ", current->data);
+            current = current->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+void freeHashTable(struct HashTable* hashTable) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        struct Node* current = hashTable->table[i];
+        while (current != NULL) {
+            struct Node* temp = current;
+            current = current->next;
+            free(temp);
+        }
+    }
+    free(hashTable->table);
+    free(hashTable);
+}
+
+int main() {
+    struct HashTable* hashTable = createHashTable();
+    int numKeys;
+
+    printf("Enter the number of keys to insert into the hash table: ");
+    scanf("%d", &numKeys);
+
+    for (int i = 0; i < numKeys; i++) {
+        int key;
+        printf("Enter key %d: ", i + 1);
+        scanf("%d", &key);
+        insert(hashTable, key);
+    }
+
+    printf("\nHash Table:\n");
+    display(hashTable);
+
+    int keyToSearch, index, position;
+    printf("Enter a key to search for: ");
+    scanf("%d", &keyToSearch);
+    if (search(hashTable, keyToSearch, &index, &position)) {
+        printf("Key %d found in the hash table at index %d, position %d in the linked list.\n", keyToSearch, index, position);
+    } else {
+        printf("Key %d not found in the hash table.\n", keyToSearch);
+    }
+
+    // Free allocated memory
+    freeHashTable(hashTable);
+
+    return 0;
+}
